@@ -24,9 +24,9 @@ import (
 func main() {
     cli := linenotify.New("YOUR_TOKEN")
     err := cli.Post("Hello, World!", nil)
-	if err != nil {
-		fmt.Println(err)
-	}
+    if err != nil {
+        fmt.Println(err)
+    }
 }
 ```
 
