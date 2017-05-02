@@ -39,7 +39,7 @@ func (c Client) Post(msg string, opt *Option) error {
 	var err error
 	var req *http.Request
 
-	if opt.ImageFile != "" {
+	if opt != nil && opt.ImageFile != "" {
 		req, err = createMultiPartRequest(msg, opt)
 	} else {
 		req, err = createFormRequest(msg, opt)
@@ -120,17 +120,19 @@ func createMultiPartRequest(msg string, opt *Option) (*http.Request, error) {
 func createFormRequest(msg string, opt *Option) (*http.Request, error) {
 	data := url.Values{"message": {msg}}
 
-	if opt.ImageThumbnail != "" {
-		data.Add("imageThumbnail", opt.ImageThumbnail)
-	}
-	if opt.ImageFullsize != "" {
-		data.Add("imageFullsize", opt.ImageFullsize)
-	}
-	if opt.StickerPackageId > 0 {
-		data.Add("stickerPackageId", strconv.Itoa(opt.StickerPackageId))
-	}
-	if opt.StickerId > 0 {
-		data.Add("stickerId", strconv.Itoa(opt.StickerId))
+	if opt != nil {
+		if opt.ImageThumbnail != "" {
+			data.Add("imageThumbnail", opt.ImageThumbnail)
+		}
+		if opt.ImageFullsize != "" {
+			data.Add("imageFullsize", opt.ImageFullsize)
+		}
+		if opt.StickerPackageId > 0 {
+			data.Add("stickerPackageId", strconv.Itoa(opt.StickerPackageId))
+		}
+		if opt.StickerId > 0 {
+			data.Add("stickerId", strconv.Itoa(opt.StickerId))
+		}
 	}
 
 	req, err := http.NewRequest("POST", ENDPOINT, strings.NewReader(data.Encode()))
