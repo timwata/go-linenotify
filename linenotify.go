@@ -44,6 +44,9 @@ func (c Client) Post(msg string, opt *Option) error {
 	} else {
 		req, err = createFormRequest(msg, opt)
 	}
+	if err != nil {
+		return err
+	}
 	req.Header.Set("Authorization", "Bearer "+c.token)
 
 	httpResp, err := http.DefaultClient.Do(req)
